@@ -1,4 +1,4 @@
-package org.example;
+package org.example.cause;
 
 public class MyException extends Throwable{
 

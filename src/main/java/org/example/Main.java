@@ -1,16 +1,34 @@
 package org.example;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) throws MyException {
 
-        // My custom exception is having the cause now.
-        // To make it happen I had to override 4 super constructors
-        // This exception is also a checked one because I extend from Throwable
-        // That means if I extend from only Throwable then I have a checked exception
-        // But if my exception is a subclass of not only throwable but also RuntimeException or Error
-        // Then I have an unchecked exception/error
-        // All the other subclasses are checked by compiler as much as Throwable
-        throw new MyException(new RuntimeException());
+    public static void main(String[] args) {
 
+//        The output will be 0 and nothing else which means that our exception was swallowed
+        int a = getScore();
+        System.out.println(a);
+
+//        The output will be RuntimeException which means that our NumberFormatException was swallowed
+        getSomething();
+
+    }
+
+    public static int getScore() {
+        int score = 0;
+        try {
+            throw new RuntimeException("My exception"); // <== eaten by the finally
+        } finally {
+            return score;
+        }
+    }
+
+    public static int getSomething() {
+        try {
+            throw new NumberFormatException("NumberFormatException"); // <== eaten by the finally
+        } finally {
+            throw new RuntimeException("RuntimeException");
+        }
     }
 }
